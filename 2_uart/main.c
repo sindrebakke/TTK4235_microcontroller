@@ -39,10 +39,10 @@ int main() {
         letter = uart_read();
 
         if (letter == A) {
-            printf("A\n");
+            printf("A\r\n");
         }
         else if (letter == B) {
-            printf("B\n");
+            printf("B\r\n");
         }
         
 		sleep = 1000000;
