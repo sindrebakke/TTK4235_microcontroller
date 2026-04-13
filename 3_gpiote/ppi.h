@@ -30,8 +30,5 @@ typedef struct {
 
 // Function declarations
 void ppi_init(void);
-void ppi_channel_assign(uint32_t channel, uint32_t event_addr, uint32_t task_addr);
-void ppi_channel_enable(uint32_t channel);
-void ppi_channel_disable(uint32_t channel);
 
 #endif
