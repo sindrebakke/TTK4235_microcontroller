@@ -1,6 +1,11 @@
 #include <stdint.h>
 
-#define GPIO ((NRF_GPIO_REGS*)__GPIO_BASE_ADDRESS__)
+#define GPIO ((NRF_GPIO_REGS*) 0x50000000)
+
+#define LED1 17
+#define LED2 18
+#define LED3 19
+#define LED4 20
 
 typedef struct {
 	volatile uint32_t RESERVED0[321];
@@ -13,13 +18,19 @@ typedef struct {
 	volatile uint32_t DIRCLR;
 	volatile uint32_t LATCH;
 	volatile uint32_t DETECTMODE;
-	volatile uint32_t RESERVED1[__RESERVED1_SIZE__];
+	volatile uint32_t RESERVED1[118];
 	volatile uint32_t PIN_CNF[32];
 } NRF_GPIO_REGS;
 
 void button_init(){ 
-	GPIO->PIN_CNF[__BUTTON_1_PIN__] = (3 << 2);
-	// Fill inn the configuration for the remaining buttons 
+  GPIO->PIN_CNF[13] = (0 << 0) |  // DIR = Input
+                                (0 << 1) |  // INPUT 
+                                (3 << 2) |  // PULL = Pullup
+                                (0 << 8);   // DRIVE = S0S1
+  GPIO->PIN_CNF[14] = (0 << 0) |  // DIR = Input
+                                (0 << 1) |  // INPUT 
+                                (3 << 2) |  // PULL = Pullup
+                                (0 << 8);   // DRIVE = S0S1
 }
 
 int main(){
@@ -30,16 +41,27 @@ int main(){
 	}
 
 	// Configure buttons -> see button_init()
+	button_init();
 
 	int sleep = 0;
 	while(1){
-
 		/* Check if button 1 is pressed;
 		 * turn on LED matrix if it is. */
+		if (!(GPIO->IN & (1 << 13))) {
+			GPIO->OUTCLR = (1 << LED1) | 
+						   (1 << LED2) |
+					 	   (1 << LED3) |
+						   (1 << LED4);
+		}
 
 		/* Check if button 2 is pressed;
 		 * turn off LED matrix if it is. */
-
+		if (!(GPIO->IN & (1 << 14))) {
+			GPIO->OUTSET = (1 << LED1) | 
+						   (1 << LED2) |
+					 	   (1 << LED3) |
+						   (1 << LED4);
+		}
 		sleep = 10000;
 		while(--sleep); // Delay
 	}
