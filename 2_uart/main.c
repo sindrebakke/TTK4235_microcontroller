@@ -23,6 +23,7 @@ int main() {
     button_init();
 
 	int sleep = 0;
+    int just_sent = 0;
 
     char A = 'A';
     char B = 'B';
@@ -30,20 +31,32 @@ int main() {
 	while(1){
         if (!(GPIO->IN & (1 << 13))){
 			uart_send(A);
+			just_sent = 1;
 		}
         if (!(GPIO->IN & (1 << 14))){
 			uart_send(B);
+			just_sent = 1;
 		}
 
-        char letter;
-        letter = uart_read();
+        // Only read if we didn't just send something
+        if (!just_sent) {
+            char letter = uart_read();
+            if (letter != '\0') {
 
-        if (letter == A) {
-            printf("A\r\n");
+                if (GPIO->OUT & (1 << 17)) {
+                    GPIO->OUTCLR = (1 << 17);
+                    GPIO->OUTCLR = (1 << 18);
+                    GPIO->OUTCLR = (1 << 19);
+                    GPIO->OUTCLR = (1 << 20);
+                } else {
+                    GPIO->OUTSET = (1 << 17);
+                    GPIO->OUTSET = (1 << 18);
+                    GPIO->OUTSET = (1 << 19);
+                    GPIO->OUTSET = (1 << 20);
+                }
+            }
         }
-        else if (letter == B) {
-            printf("B\r\n");
-        }
+        just_sent = 0;
         
 		sleep = 1000000;
         while(--sleep); // Delay
