@@ -45,13 +45,23 @@ int main(){
 
 	int sleep = 0;
 	while(1){
-
 		/* Check if button 1 is pressed;
 		 * turn on LED matrix if it is. */
+		if (!(GPIO->IN & (1 << 13))) {
+			GPIO->OUTCLR = (1 << 17) | 
+						   (1 << 18) |
+					 	   (1 << 19) |
+						   (1 << 20);
+		}
 
 		/* Check if button 2 is pressed;
 		 * turn off LED matrix if it is. */
-
+		if (!(GPIO->IN & (1 << 14))) {
+			GPIO->OUTSET = (1 << 17) | 
+						   (1 << 18) |
+					 	   (1 << 19) |
+						   (1 << 20);
+		}
 		sleep = 10000;
 		while(--sleep); // Delay
 	}
