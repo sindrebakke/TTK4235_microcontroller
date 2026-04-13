@@ -3,9 +3,9 @@
 #define GPIO ((NRF_GPIO_REGS*) 0x50000000)
 
 #define LED1 17
-#define LED1 18
-#define LED1 19
-#define LED1 20
+#define LED2 18
+#define LED3 19
+#define LED4 20
 
 typedef struct {
 	volatile uint32_t RESERVED0[321];
@@ -48,19 +48,19 @@ int main(){
 		/* Check if button 1 is pressed;
 		 * turn on LED matrix if it is. */
 		if (!(GPIO->IN & (1 << 13))) {
-			GPIO->OUTCLR = (1 << 17) | 
-						   (1 << 18) |
-					 	   (1 << 19) |
-						   (1 << 20);
+			GPIO->OUTCLR = (1 << LED1) | 
+						   (1 << LED2) |
+					 	   (1 << LED3) |
+						   (1 << LED4);
 		}
 
 		/* Check if button 2 is pressed;
 		 * turn off LED matrix if it is. */
 		if (!(GPIO->IN & (1 << 14))) {
-			GPIO->OUTSET = (1 << 17) | 
-						   (1 << 18) |
-					 	   (1 << 19) |
-						   (1 << 20);
+			GPIO->OUTSET = (1 << LED1) | 
+						   (1 << LED2) |
+					 	   (1 << LED3) |
+						   (1 << LED4);
 		}
 		sleep = 10000;
 		while(--sleep); // Delay
