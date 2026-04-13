@@ -13,7 +13,7 @@
 void uart_init() {
 
     GPIO->PIN_CNF[UART_TX_PIN] = (0 << 1);
-    //GPIO->PIN_CNF[UART_RX_PIN] = (1 << 1);
+    GPIO->PIN_CNF[UART_RX_PIN] = (0 << 1);
 
     UART->PSELTXD = UART_TX_PIN;
     UART->PSELRXD = UART_RX_PIN;
@@ -49,4 +49,12 @@ char uart_read(){
     else{
         return '\0';
     };
+}
+
+// Redirect printf to UART
+int _write(int file, char *ptr, int len) {
+    for (int i = 0; i < len; i++) {
+        uart_send(ptr[i]);
+    }
+    return len;
 }
