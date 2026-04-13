@@ -18,7 +18,7 @@ typedef struct {
 } NRF_GPIO_REGS;
 
 void button_init(){ 
-	GPIO->PIN_CNF[__BUTTON_1_PIN__] = (3 << 2);
+	GPIO->PIN_CNF[0] = (3 << 2);
 	// Fill inn the configuration for the remaining buttons 
 }
 
