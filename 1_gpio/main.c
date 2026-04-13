@@ -2,6 +2,11 @@
 
 #define GPIO ((NRF_GPIO_REGS*) 0x50000000)
 
+#define LED1 17
+#define LED1 18
+#define LED1 19
+#define LED1 20
+
 typedef struct {
 	volatile uint32_t RESERVED0[321];
 	volatile uint32_t OUT;
