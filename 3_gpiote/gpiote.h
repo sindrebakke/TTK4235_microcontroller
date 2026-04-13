@@ -17,8 +17,15 @@ typedef struct {
 	volatile uint32_t RESERVED5[97];
 	volatile uint32_t INTENSET;
 	volatile uint32_t INTENCLR;
-	volatile uint32_t RESERVED3[129];
+	volatile uint32_t RESERVED6[129];
 	volatile uint32_t CONFIG[8];
 } NRF_GPIOTE_REG;
+
+// Function declarations
+void gpiote_init(void);
+void gpiote_enable_interrupt(uint32_t channel);
+int gpiote_event_check(uint32_t channel);
+void gpiote_event_clear(uint32_t channel);
+void gpiote_task_trigger(uint32_t channel);
 
 #endif

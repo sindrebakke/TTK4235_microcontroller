@@ -17,4 +17,7 @@ typedef struct {
 	volatile uint32_t PIN_CNF[32];
 } NRF_GPIO_REG;
 
+// Function declarations
+void gpio_init(void);
+
 #endif
