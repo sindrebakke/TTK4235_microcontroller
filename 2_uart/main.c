@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
+
 #include "uart.h"
 #include "gpio.h"
 
@@ -16,13 +17,17 @@ int main() {
 
     for(int i = 17; i <= 20; i++){
 		GPIO->DIRSET = (1 << i);
-		GPIO->OUTCLR = (1 << i);
+		GPIO->OUTSET = (1 << i);  
 	} // Configure LED matrix
 
     uart_init();
     button_init();
 
+    // Test iprintf - Oppgave 2.5
+    iprintf("The average grade in TTK%d was in %d was: %c\n\r",4235,2022,'B');
+
 	int sleep = 0;
+    int just_sent = 0;
 
     char A = 'A';
     char B = 'B';
@@ -30,20 +35,32 @@ int main() {
 	while(1){
         if (!(GPIO->IN & (1 << 13))){
 			uart_send(A);
+			just_sent = 1;
 		}
         if (!(GPIO->IN & (1 << 14))){
 			uart_send(B);
+			just_sent = 1;
 		}
 
-        char letter;
-        letter = uart_read();
+        // Only read if we didn't just send something
+        if (!just_sent) {
+            char letter = uart_read();
+            if (letter != '\0') {
 
-        if (letter == A) {
-            printf("A");        
+                if (GPIO->OUT & (1 << 17)) {
+                    GPIO->OUTCLR = (1 << 17);
+                    GPIO->OUTCLR = (1 << 18);
+                    GPIO->OUTCLR = (1 << 19);
+                    GPIO->OUTCLR = (1 << 20);
+                } else {
+                    GPIO->OUTSET = (1 << 17);
+                    GPIO->OUTSET = (1 << 18);
+                    GPIO->OUTSET = (1 << 19);
+                    GPIO->OUTSET = (1 << 20);
+                }
+            }
         }
-        else if (letter == B) {
-            printf("B");
-        }
+        just_sent = 0;
         
 		sleep = 1000000;
         while(--sleep); // Delay

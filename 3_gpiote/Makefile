@@ -25,7 +25,7 @@ CFLAGS += -Wall -Werror -std=gnu99
 CFLAGS += -DNRF52832_XXAA
 
 ## Linker flags
-CFLAGS += --specs=nosys.specs -Wl,--gc-sections -T $(LINKER_SCRIPT)
+CFLAGS += --specs=nano.specs -lc -lnosys -Wl,--gc-sections -T $(LINKER_SCRIPT)
 # or --specs=nano.specs -lc -lnosys
 
 SOURCES += $(BUILD_SYS)/system_nrf52.c
