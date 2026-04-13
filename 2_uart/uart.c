@@ -49,7 +49,6 @@ char uart_read(){
     }
 }
 
-// Redirect printf to UART
 ssize_t _write(int fd, const void *buf, size_t count){
     char * letter = (char *)(buf);
     for(int i = 0; i < count; i++){

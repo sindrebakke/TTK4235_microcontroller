@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
+
 #include "uart.h"
 #include "gpio.h"
 
@@ -21,6 +22,9 @@ int main() {
 
     uart_init();
     button_init();
+
+    // Test iprintf - Oppgave 2.5
+    iprintf("The average grade in TTK%d was in %d was: %c\n\r",4235,2022,'B');
 
 	int sleep = 0;
     int just_sent = 0;
