@@ -16,7 +16,7 @@ int main() {
 
     for(int i = 17; i <= 20; i++){
 		GPIO->DIRSET = (1 << i);
-		GPIO->OUTCLR = (1 << i);
+		GPIO->OUTSET = (1 << i);  
 	} // Configure LED matrix
 
     uart_init();
