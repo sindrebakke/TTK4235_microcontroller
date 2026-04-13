@@ -18,7 +18,11 @@ typedef struct {
 } NRF_GPIO_REGS;
 
 void button_init(){ 
-  GPIO->PIN_CNF[0] = (0 << 0) |  // DIR = Input
+  GPIO->PIN_CNF[13] = (0 << 0) |  // DIR = Input
+                                (0 << 1) |  // INPUT 
+                                (3 << 2) |  // PULL = Pullup
+                                (0 << 8);   // DRIVE = S0S1
+  GPIO->PIN_CNF[14] = (0 << 0) |  // DIR = Input
                                 (0 << 1) |  // INPUT 
                                 (3 << 2) |  // PULL = Pullup
                                 (0 << 8);   // DRIVE = S0S1
